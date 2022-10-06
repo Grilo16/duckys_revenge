@@ -13,11 +13,20 @@ const getOneById = (collection, id) => {
             .toArray()
 }
 
-const editOneById = (collection, id) =>{
-    return collection
-            .find()
-            .toArray()
+const editOneById = (collection, id, patchObject) =>{
+        return collection
+                .updateOne({_id:ObjectId(id)}, {$set: patchObject})
+}
+
+const addToDB = (collection, objToAdd) =>{
+        return collection
+                .insertOne(objToAdd)
+}
+
+const deleteOneById = (collection, id) =>{
+        return collection
+                .deleteOne({_id:ObjectId(id)})
 }
 
 
-module.exports = {getAll, getOneById, editOneById}
+module.exports = {getAll, getOneById, editOneById, addToDB, deleteOneById}

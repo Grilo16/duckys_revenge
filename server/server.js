@@ -4,7 +4,7 @@ const cors = require("cors")
 const MongoClient = require("mongodb").MongoClient
 const createRouter = require("./helpers/createRouter.js")
 
-app.use(express())
+app.use(express.json())
 app.use(cors())
 
 MongoClient.connect("mongodb://localhost:27017", {useUnifiedTopology: true})

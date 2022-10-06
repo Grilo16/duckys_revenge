@@ -1,4 +1,4 @@
-const {getAll, getOneById, editOneById} = require("./repository.js")
+const {getAll, getOneById, editOneById, addToDB, deleteOneById} = require("./repository.js")
 const express = require("express")
 
 
@@ -17,12 +17,34 @@ const createRouter = (collection) => {
         .then(result => res.json(result))
         
     })
+    
+    router.post("/add", (req, res) =>{
+        addToDB(collection, req.body)
+        .then(()=>{
+            getAll(collection)
+            .then(result => res.json(result))
+        })
+    })
 
-    router.get("/edit/:id", (req, res)=>{
-        editOneById(collection)
-        .then(result => res.json(result))
+    router.patch("/edit/:id", (req, res)=>{
+        const id = req.params.id
+        editOneById(collection, id, req.body)
+        .then(()=>{
+            getAll(collection)
+            .then(result => res.json(result))
+        })
+    })
+    
+    router.delete("/delete/:id", (req, res) => {
+        const id = req.params.id
+        deleteOneById(collection, id)
+        .then(()=>{
+            getAll(collection)
+            .then(result => res.json(result))
+        })
         
     })
+
 
     return router
 
