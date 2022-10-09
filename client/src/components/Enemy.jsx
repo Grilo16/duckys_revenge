@@ -20,8 +20,8 @@ const Enemy = ({enemy}) => {
     
     const {state, dispatch, unitSize} = useContext(AppContext)
 
-    const xPos = enemy.positions.x
-    const yPos = enemy.positions.y
+    const xPos = enemy.position.x
+    const yPos = enemy.position.y
 
     return (
         <EnemyDiv onClick={()=>dispatch({type:"DeleteEnemy", id: enemy._id, position: enemy.positions})} enemySize={unitSize} xPos={xPos} yPos={yPos}>

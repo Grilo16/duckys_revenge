@@ -9,8 +9,8 @@ app.use(cors())
 
 MongoClient.connect("mongodb://localhost:27017", {useUnifiedTopology: true})
 .then((client)=>{
-    const db = client.db("exploration")
-    const collection = db.collection("users")
+    const db = client.db("duckyshooter")
+    const collection = db.collection("levels")
     const router = createRouter(collection)
     app.use("/", router)
 })

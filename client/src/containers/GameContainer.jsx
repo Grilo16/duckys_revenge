@@ -32,10 +32,10 @@ const reducer = (state, action) => {
   const checkProjectileHit = (newPos, objSize) => {
     const enemyHit = state.enemyList.filter((enemy) => {
       if (
-        newPos.x > enemy.positions.x - objSize.width &&
-        newPos.x < enemy.positions.x + unitSize.width &&
-        newPos.y > enemy.positions.y - objSize.height &&
-        newPos.y < enemy.positions.y + unitSize.height
+        newPos.x > enemy.position.x - objSize.width &&
+        newPos.x < enemy.position.x + unitSize.width &&
+        newPos.y > enemy.position.y - objSize.height &&
+        newPos.y < enemy.position.y + unitSize.height
       ) {
         return true;
       }
@@ -49,19 +49,11 @@ const reducer = (state, action) => {
 
 
   switch (action.type) {
-    case "LoadPlayer":
-      return { ...state, playerPosition: action.res[0].positions };
 
-    case "LoadEnemies":
-      return {
-        ...state,
-        enemyList: action.res,
-        invalidAreas: action.res.map((enemy) => enemy.positions),
-      };
+    case "LoadMap":
+      console.log(action.res[0].player)
+      return { ...state, playerPosition: action.res[0].player[0].position, enemyList: action.res[0].enemies, walls: action.res[0].walls, selectedMap: {name : action.res[0].name, id: action.res[0]._id }, invalidAreas: [...action.res[0].enemies.map((enemy)=>enemy.position), ...action.res[0].walls.map((wall)=>wall.position)]};
 
-    case "LoadWalls":
-      return {...state, walls: action.res, invalidAreas:[...state.invalidAreas, ...action.res.map((obj)=>obj.position)]};
-      
     case "MovePlayerUp":
       const moveUp = {
         x: state.playerPosition.x,
@@ -122,7 +114,7 @@ const reducer = (state, action) => {
       const enemyHit = checkProjectileHit(action.position, projectileSize)
       if (enemyHit){
         const newEnemyList = [...state.enemyList.filter((enemy)=> enemy._id !== enemyHit._id)]
-        const newInvalidAreas = [...state.invalidAreas.filter((coords) => coords !== enemyHit.positions)]
+        const newInvalidAreas = [...state.invalidAreas.filter((coords) => coords !== enemyHit.position)]
 
         return {...state, projectiles: [...state.projectiles.filter((projectile)=> projectile.id !== action.id)], enemyList: newEnemyList, invalidAreas: newInvalidAreas}
       }else if (!checkValidMove(action.position, projectileSize)){
@@ -148,6 +140,7 @@ const reducer = (state, action) => {
 const GameContainer = () => {
   
   const initialStates = {
+    selectedMap: {},
     playerOrientation : "right",
     playerPosition: {},
     enemyList: [],
@@ -159,11 +152,7 @@ const GameContainer = () => {
   const [state, dispatch] = useReducer(reducer, initialStates);
   
   useEffect(() => {
-    gameRepo.getPlayers().then((res) => dispatch({ type: "LoadPlayer", res }));
-
-    gameRepo.getEnemies().then((res) => dispatch({ type: "LoadEnemies", res }));
-
-    gameRepo.getWalls().then((res) => dispatch({ type: "LoadWalls", res }));
+    gameRepo.getMapById("6342d357754908e6cd5cfdf0").then((res) => dispatch({type: "LoadMap", res}))
   }, []);
 
   const walls = state.walls.map((wall)=>{

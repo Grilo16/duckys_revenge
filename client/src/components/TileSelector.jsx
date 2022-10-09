@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components"
+import { LevelMakerContext } from "../containers/LevelMakerContainer";
 import Tile from "./Tile";
 
 const TileSelectorDiv = styled.div.attrs((props)=>({
     style : {
-        left: props.position.x,
-        top: props.position.y,
+        left: props.position.x-150,
+        top: props.position.y-200,
     }
 }))`
 position: absolute;
@@ -17,16 +18,23 @@ text-align: center;
 
 const TileSelector = ()=>{
 
-    const [mockLocation, setMockLocation] = useState({x: 1350, y:250})
+    const {state, dispatch} = useContext(LevelMakerContext)
+
+
+    const cardTypes = [{id: 0, type:"player"}, {id: 1, type:"enemy"}, {id: 2, type:"wall"}].map((type)=>{
+        return (
+            <Tile key={type.id} type={type.type}/>
+        )
+    });
 
 
     return (
-        <TileSelectorDiv position={mockLocation}>
+        <>
+        <TileSelectorDiv position={state.tileSelectorPosition}>
         <h2>Select Tiles here</h2>
-        <Tile/>
-        <Tile/>
-        <Tile/>
+        {cardTypes}
         </TileSelectorDiv>
+        </>
     )
 };
 
