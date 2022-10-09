@@ -21,18 +21,28 @@ const TileSelector = ()=>{
     const {state, dispatch} = useContext(LevelMakerContext)
 
 
-    const cardTypes = [{id: 0, type:"player"}, {id: 1, type:"enemy"}, {id: 2, type:"wall"}].map((type)=>{
+    const unitTypes = [{id: 0, type:"player"}, {id: 1, type:"enemy"}, {id: 2, type:"wall"}].map((type)=>{
         return (
             <Tile key={type.id} type={type.type}/>
         )
     });
+
+    
+    const handleInput = (e)=>{
+        dispatch({type:"GetMapName", mapName: e.target.value})
+    };
 
 
     return (
         <>
         <TileSelectorDiv position={state.tileSelectorPosition}>
         <h2>Select Tiles here</h2>
-        {cardTypes}
+        <label htmlFor="map-name">Map Name</label>
+        <br />
+        <input onChange={handleInput} type="text" id="map-name" value={state.mapData.name?state.mapData.name:" "}/>
+        <br />
+        <button onClick={()=>{dispatch({type: "SaveMapToDb"})}}>Save map</button>
+        {unitTypes}
         </TileSelectorDiv>
         </>
     )

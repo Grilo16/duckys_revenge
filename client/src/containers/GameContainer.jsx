@@ -152,7 +152,7 @@ const GameContainer = () => {
   const [state, dispatch] = useReducer(reducer, initialStates);
   
   useEffect(() => {
-    gameRepo.getMapById("6342d357754908e6cd5cfdf0").then((res) => dispatch({type: "LoadMap", res}))
+    gameRepo.getMapById("6342ef51754908e6cd5cfdf2").then((res) => dispatch({type: "LoadMap", res}))
   }, []);
 
   const walls = state.walls.map((wall)=>{
