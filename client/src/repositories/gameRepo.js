@@ -15,10 +15,10 @@ const gameRepo = {
     });
   },
 
-  async getUnavailableCoords() {
+  async getWalls() {
     const response = await fetch("http://localhost:9000/all");
     return response.json().then((gameLog) => {
-      return gameLog.filter((unit) => unit.type === "enemy");
+      return gameLog.filter((unit) => unit.type === "wall");
     });
   },
 };

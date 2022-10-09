@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { AppContext } from "../App";
+import { AppContext } from "../containers/GameContainer";
+
 import ducky from "../static/DuckyPlayer.png"
 
 let CharacterDiv = styled.div.attrs(props =>({
@@ -20,7 +21,7 @@ const PlayerCharacter = () => {
 
     const xPos = state.playerPosition.x
     const yPos = state.playerPosition.y
-
+    
     
   useEffect(() => {
     document.addEventListener("keydown", playerAction);

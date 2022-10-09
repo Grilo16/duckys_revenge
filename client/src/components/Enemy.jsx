@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import styled from "styled-components";
-import { AppContext } from "../App";
+import { AppContext } from "../containers/GameContainer";
 
 
 let EnemyDiv = styled.div.attrs(props =>({
@@ -18,13 +18,13 @@ background-color: rgb(255,0,255);
 
 const Enemy = ({enemy}) => {
     
-    const {state, dispatch, enemySize} = useContext(AppContext)
+    const {state, dispatch, unitSize} = useContext(AppContext)
 
     const xPos = enemy.positions.x
     const yPos = enemy.positions.y
 
     return (
-        <EnemyDiv onClick={()=>dispatch({type:"DeleteEnemy", id: enemy._id, position: enemy.positions})} enemySize={enemySize} xPos={xPos} yPos={yPos}>
+        <EnemyDiv onClick={()=>dispatch({type:"DeleteEnemy", id: enemy._id, position: enemy.positions})} enemySize={unitSize} xPos={xPos} yPos={yPos}>
         </EnemyDiv>
     )
 };
