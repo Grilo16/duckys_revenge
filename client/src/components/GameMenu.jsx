@@ -6,7 +6,12 @@ import createMap from "../static/createamap.png"
 import homeLogo from "../static/home.png"
 
 
-const GameMenuDiv = styled.div`
+const GameMenuDiv = styled.div.attrs((props)=>({
+    style: {
+      top: props.position.y,
+      left: props.position.x,
+    }
+}))`
 position: absolute;
 background-color: rgb(120, 110, 190);
 height: 300px;
@@ -15,9 +20,6 @@ text-align: center;
 padding-top: 20px;
 padding-bottom: 20px;
 border-radius: 50px;
-margin-left: 40%;
-margin-top: 25vh;
-
 `
 
 const ContentDiv = styled.div`
@@ -46,7 +48,7 @@ const GameMenu = ()=>{
     }
 
     return (
-        <GameMenuDiv >
+        <GameMenuDiv position={state.playerPosition} >
         <h1>Menu</h1>
         <form>
 

@@ -8,7 +8,8 @@ body {
   overflow:hidden;
   background-image: url("./static/background.png");
   background-repeat: repeat-x repeat-y;
-  height: 100vh;
+  height: 1000vh;
+  width: 1000vh;
 }
 
 code {

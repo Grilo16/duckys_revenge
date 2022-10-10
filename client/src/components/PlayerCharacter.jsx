@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { AppContext } from "../containers/GameContainer";
 
@@ -16,19 +16,24 @@ position: absolute;
 `;
 
 const PlayerCharacter = () => {
-
-    const {state, characterSize, dispatch} = useContext(AppContext)
-
-    const xPos = state.playerPosition.x
-    const yPos = state.playerPosition.y
-    
-    
+  
+  const {state, characterSize, dispatch} = useContext(AppContext)
+  
+  const xPos = state.playerPosition.x
+  const yPos = state.playerPosition.y
+  
+  
   useEffect(() => {
     document.addEventListener("keydown", playerAction);
   }, []);
-
+  
+  
+  const myRef = useRef(null)
+  const executeScroll = (myRef) =>  myRef.current.scrollIntoView({ behavior: "auto", block: "center", inline: "center"});
+  
   const playerAction = (e) => {
     if (e.key.includes("Arrow")) {
+      
       if (e.key === "ArrowUp") {
         dispatch({ type: "MovePlayerUp" });
       } else if (e.key === "ArrowDown") {
@@ -38,8 +43,10 @@ const PlayerCharacter = () => {
       } else if (e.key === "ArrowLeft") {
         dispatch({ type: "MovePlayerLeft" });
       }
+      executeScroll(myRef)
     }else if(e.key === " "){
         dispatch({type: "FireProjectile"})
+
     }else if(e.key === "!"){
         dispatch({type: "ToggleGameMenu"})
     }
@@ -58,7 +65,7 @@ const PlayerCharacter = () => {
   };
 
     return (
-        <CharacterDiv  characterSize={characterSize} xPos={xPos} yPos={yPos}>
+        <CharacterDiv ref={myRef} characterSize={characterSize} xPos={xPos} yPos={yPos}>
             <img src={ducky} alt="" height={100} width={100} style={{margin: 0, transform: playerOrientation()}}/>
         </CharacterDiv>
     )

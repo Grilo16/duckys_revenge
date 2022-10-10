@@ -61,16 +61,22 @@ const reducer = (state, action) => {
       return {...state, nextMapId: action.map}
 
     case "MovePlayerUp":
+      if (state.showGameMenu){
+        return state
+      }
       const moveUp = {
         x: state.playerPosition.x,
         y: state.playerPosition.y - SPEED,
       };
-      if (checkValidMove(moveUp, characterSize )) {
+      if (checkValidMove(moveUp, characterSize)) {
         return { ...state, playerPosition: moveUp, playerOrientation: "up" };
       }
       return {...state, playerOrientation: "up"};
 
     case "MovePlayerDown":
+      if (state.showGameMenu){
+        return state
+      }
       const moveDown = {
         x: state.playerPosition.x,
         y: state.playerPosition.y + SPEED,
@@ -81,6 +87,9 @@ const reducer = (state, action) => {
       return {...state, playerOrientation: "down"};
 
     case "MovePlayerLeft":
+      if (state.showGameMenu){
+        return state
+      }
       const moveLeft = {
         x: state.playerPosition.x - SPEED,
         y: state.playerPosition.y,
@@ -91,6 +100,9 @@ const reducer = (state, action) => {
       return {...state, playerOrientation: "left"};
 
     case "MovePlayerRight":
+      if (state.showGameMenu){
+        return state
+      }
       const moveRight = {
         x: state.playerPosition.x + SPEED,
         y: state.playerPosition.y,
@@ -101,6 +113,9 @@ const reducer = (state, action) => {
       return {...state, playerOrientation: "right"};
 
     case "FireProjectile":
+      if (state.showGameMenu){
+        return state
+      }
       let startPosition;
       if (state.playerOrientation === "up"){
         startPosition = {x: state.playerPosition.x +50, y: state.playerPosition.y}
