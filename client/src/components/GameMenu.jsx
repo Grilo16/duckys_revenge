@@ -78,8 +78,6 @@ const GameMenu = ({myRef, executeScroll})=>{
 
         </div>
         </ContentDiv>
-
-
         </GameMenuDiv>
 
     )
