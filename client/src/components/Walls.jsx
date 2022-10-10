@@ -1,6 +1,8 @@
 import { useContext } from "react";
 import styled from "styled-components";
 import { AppContext } from "../containers/GameContainer";
+import wallSprite from "../static/wall2.png"
+
 
 
 let WallDiv = styled.div.attrs(props =>({
@@ -12,7 +14,6 @@ let WallDiv = styled.div.attrs(props =>({
     }
 }))`
 position: absolute;
-background-color: rgb(0,255,255);
 `;
 
 const Walls = ({wall}) => {
@@ -21,8 +22,8 @@ const Walls = ({wall}) => {
 
     return (
         <WallDiv position={wall.position} dimensions={unitSize}>
+            <img src={wallSprite} alt="" height={unitSize.height+15} width={unitSize.width+15} style={{position: "absolute", left: "-10px", top: "-6px"}}/>
         </WallDiv>
-
     )
 };
 

@@ -2,17 +2,9 @@ import { useContext, useEffect } from "react";
 import { LevelMakerContext } from "../containers/LevelMakerContainer";
 import styled from "styled-components"
 import ducky from "../static/DuckyPlayer.png"
+import wallSprite from "../static/wall2.png"
+import enemySprite from "../static/enemy.png"
 
-
-let MapCanvasDiv = styled.div.attrs((props)=>({
-    style:{
-        width: 1000,
-        height: 690,
-    }
-}))`
-margin-left: 90px ;
-background-color: rgb(255,0,0);
-`
 
 
 let EnemyDiv = styled.div.attrs(props =>({
@@ -24,7 +16,6 @@ let EnemyDiv = styled.div.attrs(props =>({
     }
 }))`
 position: absolute;
-background-color: rgb(255,0,255);
 `;
 
 let WallDiv = styled.div.attrs(props =>({
@@ -36,7 +27,6 @@ let WallDiv = styled.div.attrs(props =>({
     }
 }))`
 position: absolute;
-background-color: rgb(0,255,255);
 `;
 
 
@@ -54,6 +44,8 @@ position: absolute;
 
 
 const MapCreator = () => {
+
+    const unitSize = 50
 
     const {state, dispatch} = useContext(LevelMakerContext)
 
@@ -92,13 +84,18 @@ const MapCreator = () => {
     
     const enemies = state.mapData.enemies.map((enemy) => {
       return (
-      <EnemyDiv key={enemy._id} enemy={enemy}/>
+      <EnemyDiv key={enemy._id} enemy={enemy}>
+            <img src={enemySprite} alt="" height={unitSize+20} width={unitSize+35} style={{position: "absolute", left: "-20px", top: "-10px"}}/>
+
+      </EnemyDiv>
       )
     });
   
     const walls = state.mapData.walls.map((wall)=>{
         return (
-          <WallDiv key={wall._id} wall={wall}/>
+          <WallDiv key={wall._id} wall={wall}>
+            <img src={wallSprite} alt="" height={unitSize+15} width={unitSize+15} style={{position: "absolute", left: "-10px", top: "-6px"}}/>
+          </WallDiv>
         )
       })
 

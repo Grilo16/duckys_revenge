@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import styled from "styled-components";
 import { AppContext } from "../containers/GameContainer";
-
+import enemySprite from "../static/enemy.png"
 
 let EnemyDiv = styled.div.attrs(props =>({
     style: {
@@ -12,7 +12,6 @@ let EnemyDiv = styled.div.attrs(props =>({
     }
 }))`
 position: absolute;
-background-color: rgb(255,0,255);
 `;
 
 
@@ -24,7 +23,8 @@ const Enemy = ({enemy}) => {
     const yPos = enemy.position.y
 
     return (
-        <EnemyDiv onClick={()=>dispatch({type:"DeleteEnemy", id: enemy._id, position: enemy.positions})} enemySize={unitSize} xPos={xPos} yPos={yPos}>
+        <EnemyDiv enemySize={unitSize} xPos={xPos} yPos={yPos}>
+            <img src={enemySprite} alt="" height={unitSize.height+20} width={unitSize.width+35} style={{position: "absolute", left: "-20px", top: "-10px"}}/>
         </EnemyDiv>
     )
 };

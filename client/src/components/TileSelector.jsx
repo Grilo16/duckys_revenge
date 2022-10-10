@@ -2,6 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import styled from "styled-components"
 import { LevelMakerContext } from "../containers/LevelMakerContainer";
 import Tile from "./Tile";
+import ducky from "../static/DuckyPlayer.png"
+import wallSprite from "../static/wall2.png"
+import enemySprite from "../static/enemy.png"
 
 const TileSelectorDiv = styled.div.attrs((props)=>({
     style : {
@@ -10,10 +13,16 @@ const TileSelectorDiv = styled.div.attrs((props)=>({
     }
 }))`
 position: absolute;
-background-color: rgb(255, 100, 20);
+background-color: rgb(120, 110, 190);
 height: 420px;
 width: 300px;
+display: grid;
+grid-template-columns: 1fr ;
+gap: 10px;
 text-align: center;
+padding-top: 20px;
+padding-bottom: 20px;
+border-radius: 50px;
 `
 
 const TileSelector = ()=>{
@@ -21,9 +30,9 @@ const TileSelector = ()=>{
     const {state, dispatch} = useContext(LevelMakerContext)
 
 
-    const unitTypes = [{id: 0, type:"player"}, {id: 1, type:"enemy"}, {id: 2, type:"wall"}].map((type)=>{
+    const unitTypes = [{id: 0, type:"player", img: ducky}, {id: 1, type:"enemy", img: enemySprite}, {id: 2, type:"wall", img: wallSprite}].map((type)=>{
         return (
-            <Tile key={type.id} type={type.type}/>
+            <Tile key={type.id} type={type.type} img={type.img}></Tile>
         )
     });
 
@@ -36,12 +45,13 @@ const TileSelector = ()=>{
     return (
         <>
         <TileSelectorDiv position={state.tileSelectorPosition}>
-        <h2>Select Tiles here</h2>
-        <label htmlFor="map-name">Map Name</label>
+        <form>
+        <label htmlFor="map-name">Name your map!</label>
         <br />
         <input onChange={handleInput} type="text" id="map-name" value={state.mapData.name?state.mapData.name:" "}/>
         <br />
         <button onClick={()=>{dispatch({type: "SaveMapToDb"})}}>Save map</button>
+        </form>
         {unitTypes}
         </TileSelectorDiv>
         </>

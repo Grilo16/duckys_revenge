@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { AppContext } from "../containers/GameContainer";
-
+import projectileSprite from "../static/projectile-black-hole.png"
 
 
 let ProjectileDiv = styled.div.attrs(props =>({
@@ -18,7 +18,7 @@ background-color: rgb(0,255,255);
 
 const Projectile = ({projectile}) => {
     
-    const {projectileSize, dispatch} = useContext(AppContext)
+    const {projectileSize, state, dispatch} = useContext(AppContext)
     const [position, setPosition] = useState(projectile.position )
     
     const moveProjectile = ()=>{
@@ -51,11 +51,27 @@ const Projectile = ({projectile}) => {
 
     },[position])
 
+    const projectileOrientation = () => {
+        if (state.playerOrientation === "right"){
+            return "rotate(90deg)"
+        }else if (state.playerOrientation === "left"){
+            return "rotate(270deg)"
+        }else if (state.playerOrientation === "up"){
+            return "rotate(0deg)"
+        }else if (state.playerOrientation === "down"){
+            return "rotate(180deg)"
+        }
+      };
+    
+
+
 
     return (
         <>
         <ProjectileDiv projectileSize={projectileSize} startPos={position}>
-        <h3>Pew PEW</h3>
+        <h3 >Pew PEW</h3>
+        <img src={projectileSprite} alt="" height={25} width={25} style={{position: "absolute", left: "-10px", top: "-6px"}}/>
+
 
         </ProjectileDiv>
         </>

@@ -2,6 +2,8 @@ import { useContext } from "react";
 import styled from "styled-components";
 import { LevelMakerContext } from "../containers/LevelMakerContainer";
 
+
+
 let TileSelectDiv = styled.div.attrs(props =>({
     style: {
         height: 100,
@@ -9,20 +11,20 @@ let TileSelectDiv = styled.div.attrs(props =>({
     }
 }))`
 margin-left: 100px;
-background-color: rgb(255,0,255);
 `;
 
-const Tile = ({type})=>{
+const Tile = ({type, img})=>{
+
 
     const {state, dispatch} = useContext(LevelMakerContext)
 
+    const tileSize = 100
 
 
     return (
         <>
         <TileSelectDiv onClick={()=>{dispatch({type: "SelectTileType", tileType: type })}}>
-        <h4>Tile</h4>
-        <p>{type}</p>
+        <img src={img} alt="" height={tileSize} width={tileSize} style={{margin: "0px"}}/>
         </TileSelectDiv>
         </>
 
