@@ -15,7 +15,7 @@ text-align: center;
 padding-top: 20px;
 padding-bottom: 20px;
 border-radius: 50px;
-margin-left: 75vh;
+margin-left: 40%;
 margin-top: 25vh;
 
 `
