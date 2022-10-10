@@ -1,5 +1,6 @@
 import { createContext, useEffect, useReducer } from "react";
 import Enemy from "../components/Enemy";
+import GameMenu from "../components/GameMenu";
 import PlayerCharacter from "../components/PlayerCharacter";
 import Projectile from "../components/Projectile";
 import Walls from "../components/Walls";
@@ -136,6 +137,10 @@ const reducer = (state, action) => {
       const newInvalidAreas = [...state.invalidAreas.filter((coords) => coords !== action.position)]
       return {...state, enemyList: newEnemyList, invalidAreas: newInvalidAreas};
 
+    case "ToggleGameMenu":
+      const invertShowGameMenu = !state.showGameMenu
+      return {...state, showGameMenu : invertShowGameMenu}
+
     default:
       return state;
   }
@@ -153,6 +158,7 @@ const GameContainer = () => {
     walls: [],
     mapList: [],
     nextMapId: null,
+    showGameMenu: false,
   };
 
   const [state, dispatch] = useReducer(reducer, initialStates);
@@ -162,21 +168,8 @@ const GameContainer = () => {
     gameRepo.getAllMaps().then((res)=>{dispatch({type: "LoadMapList", res}); return res[0]._id})
     .then(gameRepo.getMapById)
     .then((res) => dispatch({type: "LoadMap", res}))
-    
   }, []);
 
-  const handleMapSelection = (e) => {
-    e.preventDefault()
-    gameRepo.getMapById(state.nextMapId).then((res) => dispatch({type: "LoadMap", res}))
-    document.getElementById("game-div").focus()
-}
-
-  const maps = state.mapList.map((mapObj)=>{
-    return (
-        <option key={mapObj._id} value={mapObj._id}>{mapObj.name}</option>
-    )
-  })
-  
   const walls = state.walls.map((wall)=>{
     return (
       <Walls key={wall._id} wall={wall}/>
@@ -195,20 +188,12 @@ const GameContainer = () => {
 
   return (
       <AppContext.Provider value={{ state, dispatch, characterSize, unitSize, projectileSize }}>
-      
-      <form>
-
-      <select onChange={(e)=>dispatch({type: "PreLoadNextMap", map: e.target.value })}  name="" id="">
-                {maps.length ? maps : null }
-      </select>
-        <p onClick={handleMapSelection} style={{backgroundColor: "rgb(100,0,255)", width:"fit-content", borderRadius: "10px"}}>Choose Map</p>
-      </form>
-
       <div id="game-div">
       <PlayerCharacter />
       {enemies}
       {walls}      
       {state.projectiles.length ? projectiles : null}
+      {state.showGameMenu? <GameMenu/> : null }
       </div>
       </AppContext.Provider>
   );

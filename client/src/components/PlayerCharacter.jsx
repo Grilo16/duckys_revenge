@@ -40,6 +40,8 @@ const PlayerCharacter = () => {
       }
     }else if(e.key === " "){
         dispatch({type: "FireProjectile"})
+    }else if(e.key === "!"){
+        dispatch({type: "ToggleGameMenu"})
     }
   };
 

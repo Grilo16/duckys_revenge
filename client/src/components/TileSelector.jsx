@@ -5,6 +5,8 @@ import Tile from "./Tile";
 import ducky from "../static/DuckyPlayer.png"
 import wallSprite from "../static/wall2.png"
 import enemySprite from "../static/enemy.png"
+import playGame from "../static/playagame.png"
+import homeLogo from "../static/home.png"
 
 const TileSelectorDiv = styled.div.attrs((props)=>({
     style : {
@@ -24,6 +26,15 @@ padding-top: 20px;
 padding-bottom: 20px;
 border-radius: 50px;
 `
+
+
+const ContentDiv = styled.div`
+display: flex;
+justify-content: space-around;
+margin-top: 2vh;
+margin-left: 2vh;
+`
+
 
 const TileSelector = ()=>{
 
@@ -53,6 +64,22 @@ const TileSelector = ()=>{
         <button onClick={()=>{dispatch({type: "SaveMapToDb"})}}>Save map</button>
         </form>
         {unitTypes}
+        <ContentDiv>
+
+            
+<div>
+<a href="/">
+<img src={homeLogo} height={120} width={120} style={{backgroundColor: "rgb(20, 20, 20)", borderRadius: "20px"}} />
+</a>
+</div>
+
+<div>
+<a href="/game">
+<img src={playGame} height={120} style={{backgroundColor: "rgb(20, 20, 20)", borderRadius: "20px"}} />
+</a>
+
+</div>
+</ContentDiv>
         </TileSelectorDiv>
         </>
     )

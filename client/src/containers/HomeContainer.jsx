@@ -5,11 +5,12 @@ import createMap from "../static/createamap.png"
 
 
 const HomeDiv = styled.div`
+position: absolute;
+top: 50px;
 background-color: rgb(120, 110, 190);
 height: 90vh;
 width: 180vh;
 margin-left: 7vh;
-margin-top: 3vh;
 border-radius: 50px;
 text-align: center;
 padding-top: 1px;
