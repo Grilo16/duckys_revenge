@@ -5,17 +5,17 @@ import { AppContext } from "../containers/GameContainer";
 import ducky from "../static/DuckyPlayer.png"
 
 let CharacterDiv = styled.div.attrs(props =>({
-    style: {
-        left: props.xPos,
-        top: props.yPos,
-        height: props.characterSize.height,
-        width: props.characterSize.width,
+  style: {
+    left: props.xPos,
+    top: props.yPos,
+    height: props.characterSize.height,
+    width: props.characterSize.width,
     }
 }))`
 position: absolute;
 `;
 
-const PlayerCharacter = () => {
+const PlayerCharacter = ({myRef, executeScroll}) => {
   
   const {state, characterSize, dispatch} = useContext(AppContext)
   
@@ -28,8 +28,6 @@ const PlayerCharacter = () => {
   }, []);
   
   
-  const myRef = useRef(null)
-  const executeScroll = (myRef) =>  myRef.current.scrollIntoView({ behavior: "auto", block: "center", inline: "center"});
   
   const playerAction = (e) => {
     if (e.key.includes("Arrow")) {
@@ -47,8 +45,10 @@ const PlayerCharacter = () => {
     }else if(e.key === " "){
         dispatch({type: "FireProjectile"})
 
-    }else if(e.key === "!"){
-        dispatch({type: "ToggleGameMenu"})
+    }else if(e.key === "Escape"){
+      executeScroll(myRef)
+      dispatch({type: "ToggleGameMenu"})
+    
     }
   };
 

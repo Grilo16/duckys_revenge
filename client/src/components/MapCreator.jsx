@@ -59,9 +59,9 @@ const MapCreator = () => {
 
     const handleKeyPress = (e) => {
         const key = e.key
-        if (key === "!"){
+        if (key === "Escape"){
             dispatch({type: "ToggleTileSelector"})
-        }else if (key ==='"'){
+        }else if (key ===' '){
             dispatch({type: "ClearTileType"})
 
         }
@@ -73,7 +73,7 @@ const MapCreator = () => {
  
     useEffect(()=>{
         document.addEventListener("mousemove", trackMouse)
-        document.addEventListener("keypress", handleKeyPress)
+        document.addEventListener("keydown", handleKeyPress)
         document.addEventListener("click", handleClick)
     }, [])
 

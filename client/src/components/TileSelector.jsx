@@ -52,6 +52,15 @@ const TileSelector = ()=>{
         dispatch({type:"GetMapName", mapName: e.target.value})
     };
 
+    const checkValidMap = (e) => {
+        e.preventDefault()
+        if (state.mapData.player.length === 1 && state.mapData.name){
+            dispatch({type: "SaveMapToDb"})
+        }
+        return 
+    }
+
+
 
     return (
         <>
@@ -61,7 +70,7 @@ const TileSelector = ()=>{
         <br />
         <input onChange={handleInput} type="text" id="map-name" value={state.mapData.name?state.mapData.name:" "}/>
         <br />
-        <button onClick={()=>{dispatch({type: "SaveMapToDb"})}}>Save map</button>
+        <button onClick={checkValidMap}>Save map</button>
         </form>
         {unitTypes}
         <ContentDiv>

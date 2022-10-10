@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useRef } from "react";
 import Enemy from "../components/Enemy";
 import GameMenu from "../components/GameMenu";
 import PlayerCharacter from "../components/PlayerCharacter";
@@ -47,6 +47,8 @@ const reducer = (state, action) => {
     }
     return false
   };
+
+  const executeScroll = (myRef) =>  myRef.current.scrollIntoView({ behavior: "auto", block: "center", inline: "center"});
 
 
   switch (action.type) {
@@ -155,7 +157,7 @@ const reducer = (state, action) => {
     case "ToggleGameMenu":
       const invertShowGameMenu = !state.showGameMenu
       return {...state, showGameMenu : invertShowGameMenu}
-
+ 
     default:
       return state;
   }
@@ -201,14 +203,18 @@ const GameContainer = () => {
     )
   })
 
+  const myRef = useRef(null)
+  const executeScroll = (myRef) =>  myRef.current.scrollIntoView({ behavior: "auto", block: "center", inline: "center"});
+
+
   return (
       <AppContext.Provider value={{ state, dispatch, characterSize, unitSize, projectileSize }}>
       <div id="game-div">
-      <PlayerCharacter />
+      <PlayerCharacter myRef={myRef} executeScroll={executeScroll}/>
       {enemies}
       {walls}      
       {state.projectiles.length ? projectiles : null}
-      {state.showGameMenu? <GameMenu/> : null }
+      {state.showGameMenu? <GameMenu myRef={myRef} executeScroll={executeScroll}/> : null }
       </div>
       </AppContext.Provider>
   );

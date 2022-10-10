@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components"
 import { AppContext } from "../containers/GameContainer";
 import gameRepo from "../repositories/gameRepo";
@@ -8,8 +8,8 @@ import homeLogo from "../static/home.png"
 
 const GameMenuDiv = styled.div.attrs((props)=>({
     style: {
-      top: props.position.y,
-      left: props.position.x,
+      top: props.position.y-150,
+      left: props.position.x -150,
     }
 }))`
 position: absolute;
@@ -32,8 +32,9 @@ margin-left: 2vh;
 
 
 
-const GameMenu = ()=>{
+const GameMenu = ({myRef, executeScroll})=>{
     const {state, dispatch} = useContext(AppContext)
+
 
     const maps = state.mapList.map((mapObj)=>{
         return (
@@ -44,15 +45,18 @@ const GameMenu = ()=>{
       const handleMapSelection = (e) => {
         e.preventDefault()
         gameRepo.getMapById(state.nextMapId).then((res) => dispatch({type: "LoadMap", res}))
-        document.getElementById("game-div").focus()
-    }
+        setTimeout(function() {executeScroll(myRef)}, 50)
+        dispatch({type: "ToggleGameMenu"})
+
+      }
 
     return (
         <GameMenuDiv position={state.playerPosition} >
-        <h1>Menu</h1>
+        <h1>Change Map</h1>
         <form>
 
         <select onChange={(e)=>dispatch({type: "PreLoadNextMap", map: e.target.value })}  name="" id="">
+          <option value=""></option>
           {maps.length ? maps : null }
         </select>
         </form>
