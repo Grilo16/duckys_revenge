@@ -31,8 +31,7 @@ border-radius: 50px;
 const ContentDiv = styled.div`
 display: flex;
 justify-content: space-around;
-margin-top: 2vh;
-margin-left: 2vh;
+margin-top: 4vh;
 `
 
 
