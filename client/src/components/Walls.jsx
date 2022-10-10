@@ -1,30 +1,33 @@
 import { useContext } from "react";
-import styled from "styled-components";
 import { AppContext } from "../containers/GameContainer";
-import wallSprite from "../static/wall2.png"
+import styled from "styled-components";
+import wallSprite from "../static/wall2.png";
 
-
-
-let WallDiv = styled.div.attrs(props =>({
-    style: {
-        left: props.position.x,
-        top: props.position.y,
-        height: props.dimensions.height,
-        width: props.dimensions.width,
-    }
+let WallDiv = styled.div.attrs((props) => ({
+  style: {
+    left: props.position.x,
+    top: props.position.y,
+    height: props.dimensions.height,
+    width: props.dimensions.width,
+  },
 }))`
-position: absolute;
+  position: absolute;
 `;
 
-const Walls = ({wall}) => {
+const Walls = ({ wall }) => {
+  const { unitSize } = useContext(AppContext);
 
-    const {unitSize} = useContext(AppContext)
-
-    return (
-        <WallDiv position={wall.position} dimensions={unitSize}>
-            <img src={wallSprite} alt="" height={unitSize.height+15} width={unitSize.width+15} style={{position: "absolute", left: "-10px", top: "-6px"}}/>
-        </WallDiv>
-    )
+  return (
+    <WallDiv position={wall.position} dimensions={unitSize}>
+      <img
+        src={wallSprite}
+        alt=""
+        height={unitSize.height + 15}
+        width={unitSize.width + 15}
+        style={{ position: "absolute", left: "-10px", top: "-6px" }}
+      />
+    </WallDiv>
+  );
 };
 
-export default Walls
+export default Walls;
