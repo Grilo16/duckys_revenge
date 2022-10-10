@@ -85,7 +85,6 @@ const TileSelector = ()=>{
 <a href="/game">
 <img src={playGame} height={120} style={{backgroundColor: "rgb(20, 20, 20)", borderRadius: "20px"}} />
 </a>
-
 </div>
 </ContentDiv>
         </TileSelectorDiv>
