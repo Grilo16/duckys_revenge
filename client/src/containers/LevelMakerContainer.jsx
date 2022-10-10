@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useReducer } from "react";
 import MapCreator from "../components/MapCreator";
 import MouseTile from "../components/MouseTile";
 import TileSelector from "../components/TileSelector";

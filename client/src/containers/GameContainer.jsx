@@ -50,9 +50,14 @@ const reducer = (state, action) => {
 
   switch (action.type) {
 
+    case "LoadMapList":
+      return {...state, selectedMapId: action.res[0]._id, mapList: [...action.res.map((mapObj)=>{return {name: mapObj.name, _id: mapObj._id}})]}
+
     case "LoadMap":
-      console.log(action.res[0].player)
-      return { ...state, playerPosition: action.res[0].player[0].position, enemyList: action.res[0].enemies, walls: action.res[0].walls, selectedMap: {name : action.res[0].name, id: action.res[0]._id }, invalidAreas: [...action.res[0].enemies.map((enemy)=>enemy.position), ...action.res[0].walls.map((wall)=>wall.position)]};
+      return { ...state, playerPosition: action.res[0].player[0].position, enemyList: action.res[0].enemies, walls: action.res[0].walls, selectedMap: {name : action.res[0].name, id: action.res[0]._id }, invalidAreas: [...action.res[0].enemies.map((enemy)=>enemy.position), ...action.res[0].walls.map((wall)=>wall.position)], nextMapId: action.res[0]._id};
+
+    case "PreLoadNextMap":
+      return {...state, nextMapId: action.map}
 
     case "MovePlayerUp":
       const moveUp = {
@@ -105,7 +110,6 @@ const reducer = (state, action) => {
       }else if(state.playerOrientation === "left"){
         startPosition = {x: state.playerPosition.x, y: state.playerPosition.y +50}
       }
-
       
       const projectileModel = {id: Date.now(), direction: state.playerOrientation, position: startPosition }
       return {...state, projectiles: [...state.projectiles, projectileModel]};
@@ -147,14 +151,32 @@ const GameContainer = () => {
     invalidAreas: [],
     projectiles: [],
     walls: [],
+    mapList: [],
+    nextMapId: null,
   };
 
   const [state, dispatch] = useReducer(reducer, initialStates);
   
+  
   useEffect(() => {
-    gameRepo.getMapById("6342ef51754908e6cd5cfdf2").then((res) => dispatch({type: "LoadMap", res}))
+    gameRepo.getAllMaps().then((res)=>{dispatch({type: "LoadMapList", res}); return res[0]._id})
+    .then(gameRepo.getMapById)
+    .then((res) => dispatch({type: "LoadMap", res}))
+    
   }, []);
 
+  const handleMapSelection = (e) => {
+    e.preventDefault()
+    gameRepo.getMapById(state.nextMapId).then((res) => dispatch({type: "LoadMap", res}))
+    document.getElementById("game-div").focus()
+}
+
+  const maps = state.mapList.map((mapObj)=>{
+    return (
+        <option key={mapObj._id} value={mapObj._id}>{mapObj.name}</option>
+    )
+  })
+  
   const walls = state.walls.map((wall)=>{
     return (
       <Walls key={wall._id} wall={wall}/>
@@ -174,15 +196,20 @@ const GameContainer = () => {
   return (
       <AppContext.Provider value={{ state, dispatch, characterSize, unitSize, projectileSize }}>
       
-      <h1>Player Position</h1>
-      <h3>Player x : {state.playerPosition.x}</h3>
-      <h3>Player y : {state.playerPosition.y}</h3>
+      <form>
 
+      <select onChange={(e)=>dispatch({type: "PreLoadNextMap", map: e.target.value })}  name="" id="">
+                {maps.length ? maps : null }
+      </select>
+        <p onClick={handleMapSelection} style={{backgroundColor: "rgb(100,0,255)", width:"fit-content", borderRadius: "10px"}}>Choose Map</p>
+      </form>
 
+      <div id="game-div">
       <PlayerCharacter />
       {enemies}
       {walls}      
       {state.projectiles.length ? projectiles : null}
+      </div>
       </AppContext.Provider>
   );
 };

@@ -3,9 +3,7 @@ import GameContainer from "./containers/GameContainer";
 import HomeContainer from "./containers/HomeContainer";
 import LevelMakerContainer from "./containers/LevelMakerContainer";
 
-
 function App() {
-
 
   return (
     <Router>
@@ -14,6 +12,7 @@ function App() {
         <a href="/game"> Game </a>
         <a href="/levelmaker"> Level Creator </a>
       </nav>
+        
       <Routes>
         <Route path="/" element={<HomeContainer/>}/>
         <Route path="/game" element={<GameContainer/>}/>
