@@ -43,31 +43,6 @@ const MapCreator = () => {
 
   const { state, dispatch } = useContext(LevelMakerContext);
 
-  const trackMouse = (e) => {
-    const mouseX = e.clientX;
-    const mouseY = e.clientY;
-    const newPosition = { x: mouseX, y: mouseY };
-    dispatch({ type: "TrackMousePosition", position: newPosition });
-  };
-
-  const handleKeyPress = (e) => {
-    const key = e.key;
-    if (key === "Escape") {
-      dispatch({ type: "ToggleTileSelector" });
-    } else if (key === " ") {
-      dispatch({ type: "ClearTileType" });
-    }
-  };
-
-  const handleClick = () => {
-    dispatch({ type: "AddUnitToMap" });
-  };
-
-  useEffect(() => {
-    document.addEventListener("mousemove", trackMouse);
-    document.addEventListener("keydown", handleKeyPress);
-    document.addEventListener("click", handleClick);
-  }, []);
 
   const enemies = state.mapData.enemies.map((enemy) => {
     return (

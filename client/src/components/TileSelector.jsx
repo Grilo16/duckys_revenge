@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { LevelMakerContext } from "../containers/LevelMakerContainer";
 import styled from "styled-components";
 import Tile from "./Tile";
@@ -35,6 +35,7 @@ const ContentDiv = styled.div`
 
 const TileSelector = () => {
   const { state, dispatch } = useContext(LevelMakerContext);
+
 
   const unitTypes = [
     { id: 0, type: "player", img: ducky },
