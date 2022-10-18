@@ -5,6 +5,8 @@ import PlayerCharacter from "../components/PlayerCharacter";
 import Projectile from "../components/Projectile";
 import Walls from "../components/Walls";
 import gameRepo from "../repositories/gameRepo";
+import styled from "styled-components"
+
 
 export const AppContext = createContext(null);
 
@@ -232,10 +234,26 @@ const reducer = (state, action) => {
       const invertShowGameMenu = !state.showGameMenu;
       return { ...state, showGameMenu: invertShowGameMenu };
 
+    case "TrackMousePosition":
+      return {
+        ...state, mousePosition : action.position
+      };
+
     default:
       return state;
   }
 };
+
+
+const MouseMessageDiv = styled.div.attrs((props) => ({
+  style: {
+    top: props.mousePosition.y,
+    left: props.mousePosition.x,
+  },
+}))`
+  position: absolute;
+`;
+
 
 const GameContainer = () => {
   const initialStates = {
@@ -249,6 +267,7 @@ const GameContainer = () => {
     mapList: [],
     nextMapId: null,
     showGameMenu: false,
+    mousePosition: {x : 250, y: 250}
   };
 
   const [state, dispatch] = useReducer(reducer, initialStates);
@@ -263,6 +282,17 @@ const GameContainer = () => {
       .then(gameRepo.getMapById)
       .then((res) => dispatch({ type: "LoadMap", res }));
   }, []);
+
+  useEffect(()=>{
+    document.addEventListener("mousemove", trackMouse)
+  },[])
+
+  const trackMouse = (e) => {
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+    const newPosition = { x: mouseX, y: mouseY };
+    dispatch({ type: "TrackMousePosition", position: newPosition });
+  };
 
   const walls = state.walls.map((wall) => {
     return <Walls key={wall._id} wall={wall} />;
@@ -296,6 +326,11 @@ const GameContainer = () => {
         {state.showGameMenu ? (
           <GameMenu myRef={myRef} executeScroll={executeScroll} />
         ) : null}
+
+       {!state.showGameMenu ?( <MouseMessageDiv mousePosition ={state.mousePosition}>
+          <h3 style={{width: 69}}>Press escape for menus</h3>
+        </MouseMessageDiv>)
+        : null}
       </div>
     </AppContext.Provider>
   );

@@ -21,27 +21,43 @@ const MouseTile = () => {
 
   return (
     <MouseTileDiv mousePosition={state.selectedTile.position}>
+      {tileType === "none" && !state.displayTileSelector? (
+      <h3 style={{width: 69}}>Press escape for menu</h3>
+      ): null}
       {tileType === "player" ? (
+        <>
         <img src={ducky} alt="" height={tileSize + 50} width={tileSize + 50} />
+        <h3 style={{width: 69}}>Spacebar to clear</h3>
+        </>
       ) : null}
       {tileType === "enemy" ? (
+        <>
         <img
-          src={enemySprite}
-          alt=""
-          height={tileSize + 20}
-          width={tileSize + 35}
-          style={{ position: "absolute", left: "-20px", top: "-10px" }}
+        src={enemySprite}
+        alt=""
+        height={tileSize + 20}
+        width={tileSize + 35}
+        style={{ position: "absolute", left: "-20px", top: "-10px" }}
         />
-      ) : null}
+        <br />
+        <br />
+        <h3 style={{width: 69}}>Spacebar to clear</h3>
+        </>
+        ) : null}
       {tileType === "wall" ? (
+        <>
         <img
-          src={wallSprite}
-          alt=""
-          height={tileSize + 15}
-          width={tileSize + 15}
-          style={{ position: "absolute", left: "-10px", top: "-6px" }}
+        src={wallSprite}
+        alt=""
+        height={tileSize + 15}
+        width={tileSize + 15}
+        style={{ position: "absolute", left: "-10px", top: "-6px" }}
         />
-      ) : null}
+        <br />
+        <br />
+        <h3 style={{width: 69}}>Spacebar to clear</h3>
+        </>
+        ) : null}
     </MouseTileDiv>
   );
 };

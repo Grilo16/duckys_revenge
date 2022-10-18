@@ -49,7 +49,7 @@ const reducer = (state, action) => {
     case "ClearTileType":
       return {
         ...state,
-        selectedTile: { ...state.selectedTile, tileType: null },
+        selectedTile: { ...state.selectedTile, tileType: "none" },
       };
 
     case "AddUnitToMap":
@@ -119,7 +119,7 @@ const LevelMakerContainer = () => {
   const initialStates = {
     tileSelectorPosition: { x: 250, y: 250 },
     displayTileSelector: false,
-    selectedTile: { tileType: null, position: {} },
+    selectedTile: { tileType: "none", position: {} },
     mapData: { name: null, enemies: [], walls: [], player: [] },
   };
 
